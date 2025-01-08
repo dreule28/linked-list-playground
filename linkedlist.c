@@ -8,16 +8,38 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
+void leaks(void)
+{
+	system("leaks test");
+}
+
+void deallocate(t_node *head)
+{
+	t_node	*curr;
+
+	curr = head;
+	if (head == NULL)
+	{
+		return ;
+	}
+	while(curr->next != NULL)
+	{
+	printf("Freening node at adress: %p\n", curr);
+		curr = curr->next;
+		free(curr->prev);
+	}
+	free(curr);
+}
+
 int	main(void)
 {
 	t_node	*head;
 	t_node	*tail;
 	t_node	*curr;
 
-
+	atexit(leaks);
 	//initializing each node
 	head = malloc(sizeof(t_node));
-	tail = malloc(sizeof(t_node));
 	if (!head)
 		return (1);
 	head->value = 1;
@@ -50,17 +72,17 @@ int	main(void)
 	printf("\n\n\n");
 
 	//starting from the tail until the first ndoe
-	printf("Starting from tail:\n\n");
-	curr = tail;
-	while (curr != NULL)
-	{
-		printf("Curr: %p\n", curr);
-		printf("Value: %d\n", curr->value);
-		printf("Prev: %p\n", curr->prev);
-		printf("Next: %p\n\n", curr->next);
-		curr = curr->prev;
-	}
-
+	// printf("Starting from tail:\n\n");
+	// curr = tail;
+	// while (curr != NULL)
+	// {
+	// 	printf("Curr: %p\n", curr);
+	// 	printf("Value: %d\n", curr->value);
+	// 	printf("Prev: %p\n", curr->prev);
+	// 	printf("Next: %p\n\n", curr->next);
+	// 	curr = curr->prev;
+	// }
+	deallocate(head);
 
 
 	// printf("Node 1 --> curr: %p\n", head);
