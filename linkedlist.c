@@ -70,32 +70,6 @@ int	main(void)
 		curr = curr->next;
 	}
 	printf("\n\n\n");
-
-	//starting from the tail until the first ndoe
-	// printf("Starting from tail:\n\n");
-	// curr = tail;
-	// while (curr != NULL)
-	// {
-	// 	printf("Curr: %p\n", curr);
-	// 	printf("Value: %d\n", curr->value);
-	// 	printf("Prev: %p\n", curr->prev);
-	// 	printf("Next: %p\n\n", curr->next);
-	// 	curr = curr->prev;
-	// }
 	deallocate(head);
-
-
-	// printf("Node 1 --> curr: %p\n", head);
-	// printf("Node 1 --> value: %d\n", head->value);
-	// printf("Node 1 --> next: %p\n", head->next);
-	// printf("Node 1 --> prev: %p\n", head->prev);
-	// printf("Node 2 --> curr: %p\n", head->next);
-	// printf("Node 2 --> value: %d\n", head->next->value);
-	// printf("Node 2 --> next: %p\n", head->next->next);
-	// printf("Node 2 --> prev: %p\n", head->next->prev);
-	// printf("Node 3 --> curr: %p\n", head->next->next);
-	// printf("Node 3 --> value: %d\n", head->next->next->value);
-	// printf("Node 3 --> prev: %p\n", head->next->next->prev);
-	// printf("Node 3 --> next: %p\n", head->next->next->next);
 	return (0);
 }
