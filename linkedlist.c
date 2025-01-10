@@ -1,5 +1,18 @@
 #include "linkedlist.h"
 
+void remove_node(t_node *node)
+{
+	if (node->prev != NULL)
+	{
+		node->prev->next = node->next;
+	}
+	if (node->next != NULL)
+	{
+		node->next->prev = node->prev;
+	}
+	free(node);
+}
+
 void insert_after(t_node *node, int value)
 {
 	t_node *new_node = malloc(sizeof(t_node));
@@ -97,6 +110,7 @@ int	main(void)
 	init(&head, &tail, 7);
 	insert_beginning(&head, 3);
 	insert_beginning(&head, 1);
+	remove_node(head->next);
 	insert_after(tail->prev, 5);
 	print_vals(head);
 	deallocate(&head, &tail);
