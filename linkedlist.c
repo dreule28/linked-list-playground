@@ -1,75 +1,85 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "linkedlist.h"
 
-typedef struct s_node
+void init(t_node **head, t_node **tail, int value)
 {
-	int				value;
-	struct s_node	*next;
-	struct s_node	*prev;
-}	t_node;
+	t_node *new_node = malloc(sizeof(t_node));
 
-void leaks(void)
-{
-	system("leaks test");
+	if (!new_node)
+	{
+		exit(1);
+		return ;
+	}
+	new_node->value = value;
+	new_node->prev = NULL;
+	new_node->next = NULL;
+	*head = new_node;
+	*tail = new_node;
 }
 
-void deallocate(t_node *head)
+void insert_beginning(t_node **head, int value)
 {
-	t_node	*curr;
+	t_node *new_node = malloc(sizeof(t_node));
 
-	curr = head;
-	if (head == NULL)
+	if (!new_node)
+	{
+		exit(1);
+		return ;
+	}
+	new_node->value = value;
+	new_node->prev = NULL;
+	new_node->next = *head;
+	if (*head != NULL)
+	{
+		(*head)->prev = new_node;
+	}
+	*head = new_node;
+}
+
+void insert_ending(t_node **tail, int value)
+{
+	t_node *new_node = malloc(sizeof(t_node));
+
+	if (!new_node)
+	{
+		exit(2);
+		return ;
+	}
+	new_node->value = value;
+	new_node->next = NULL;
+	new_node->prev = *tail;
+	(*tail)->next = new_node;
+	*tail = new_node;
+}
+
+void deallocate(t_node **head, t_node **tail)
+{
+	if (*head == NULL)
 	{
 		return ;
 	}
+	t_node	*curr = *head;
+
 	while(curr->next != NULL)
 	{
-	printf("Freening node at adress: %p\n", curr);
 		curr = curr->next;
 		free(curr->prev);
 	}
 	free(curr);
+	*tail = NULL;
+	*head = NULL;
 }
 
 int	main(void)
 {
-	t_node	*head;
-	t_node	*tail;
-	t_node	*curr;
+	t_node	*head = NULL;
+	t_node *tail = NULL;
 
 	atexit(leaks);
-	//initializing each node
-	head = malloc(sizeof(t_node));
-	if (!head)
-		return (1);
-	head->value = 1;
-	head->prev = NULL;
-	head->next = malloc(sizeof(t_node));
-	if (!head->next)
-		return (1);
-	head->next->value = 3;
-	head->next->prev = head;
-	head->next->next = malloc(sizeof(t_node));
-	if (!head->next->next)
-		return (1);
-	head->next->next->value = 7;
-	head->next->next->prev = head->next;
-	head->next->next->next = NULL;
-	tail = head->next->next;
-
-
-	//starting from the head until the last node
-	printf("\nStarting from head:\n\n");
-	curr = head;
-	while (curr != NULL)
-	{
-		printf("Curr: %p\n", curr);
-		printf("Value: %d\n", curr->value);
-		printf("Prev: %p\n", curr->prev);
-		printf("Next: %p\n\n", curr->next);
-		curr = curr->next;
-	}
-	printf("\n\n\n");
-	deallocate(head);
+	init(&head, &tail, 7);
+	insert_beginning(&head, 3);
+	insert_beginning(&head, 1);
+	insert_ending(&tail, 4);
+	print_vals(head);
+	deallocate(&head, &tail);
 	return (0);
 }
