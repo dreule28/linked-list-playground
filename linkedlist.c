@@ -1,5 +1,24 @@
 #include "linkedlist.h"
 
+void insert_after(t_node *node, int value)
+{
+	t_node *new_node = malloc(sizeof(t_node));
+
+	if (!new_node)
+	{
+		exit(1);
+		return ;
+	}
+	new_node->value = value;
+	new_node->next = node->next;
+	new_node->prev = node;
+	if (node->next != NULL)
+	{
+		node->next->prev = new_node;
+	}
+	node->next = new_node;
+}
+
 void init(t_node **head, t_node **tail, int value)
 {
 	t_node *new_node = malloc(sizeof(t_node));
@@ -78,7 +97,7 @@ int	main(void)
 	init(&head, &tail, 7);
 	insert_beginning(&head, 3);
 	insert_beginning(&head, 1);
-	insert_ending(&tail, 4);
+	insert_after(tail->prev, 5);
 	print_vals(head);
 	deallocate(&head, &tail);
 	return (0);
