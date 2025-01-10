@@ -13,5 +13,6 @@ typedef struct s_node
 
 
 void print_vals(t_node *head);
+void leaks(void);
 
 #endif
