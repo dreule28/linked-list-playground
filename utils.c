@@ -16,3 +16,7 @@ void print_vals(t_node *head)
 	}
 	printf("\n\n\n");
 }
+void leaks(void)
+{
+	system("leaks test");
+}
